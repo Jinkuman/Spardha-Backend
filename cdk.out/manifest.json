@@ -1,0 +1,187 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "SrcStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SrcStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SrcStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "SrcStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/db2d8bb2decc48435b7e0ed7828026cac55baeffc9a3ca54345a49ab9349532b.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SrcStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "SrcStack.assets"
+      ],
+      "metadata": {
+        "/SrcStack/eventTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "eventTableC7126D97"
+            }
+          }
+        ],
+        "/SrcStack/eventTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventTableC7126D97"
+          }
+        ],
+        "/SrcStack/eventHandler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventHandlerServiceRole5EB242A1"
+          }
+        ],
+        "/SrcStack/eventHandler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventHandlerServiceRoleDefaultPolicy8FD5AAC5"
+          }
+        ],
+        "/SrcStack/eventHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventHandler8F7C3862"
+          }
+        ],
+        "/SrcStack/eventAPI/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventAPI9D3A89E9"
+          }
+        ],
+        "/SrcStack/eventAPI/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventAPIDeployment9A7612174236ab3aa427a227c6522f1f92b99440"
+          }
+        ],
+        "/SrcStack/eventAPI/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventAPIDeploymentStageprod6F338ACF"
+          }
+        ],
+        "/SrcStack/eventAPI/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventAPIEndpoint982B5D66"
+          }
+        ],
+        "/SrcStack/eventAPI/Default/event/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventAPIevent36D6AF21"
+          }
+        ],
+        "/SrcStack/eventAPI/Default/event/POST/ApiPermission.SrcStackeventAPI05E6C14D.POST..event": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventAPIeventPOSTApiPermissionSrcStackeventAPI05E6C14DPOSTevent9CA6EBAD"
+          }
+        ],
+        "/SrcStack/eventAPI/Default/event/POST/ApiPermission.Test.SrcStackeventAPI05E6C14D.POST..event": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventAPIeventPOSTApiPermissionTestSrcStackeventAPI05E6C14DPOSTevent03A0FCCC"
+          }
+        ],
+        "/SrcStack/eventAPI/Default/event/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventAPIeventPOSTF1D65986"
+          }
+        ],
+        "/SrcStack/eventAPI/Default/event/GET/ApiPermission.SrcStackeventAPI05E6C14D.GET..event": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventAPIeventGETApiPermissionSrcStackeventAPI05E6C14DGETevent2E8BA342"
+          }
+        ],
+        "/SrcStack/eventAPI/Default/event/GET/ApiPermission.Test.SrcStackeventAPI05E6C14D.GET..event": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventAPIeventGETApiPermissionTestSrcStackeventAPI05E6C14DGETeventE3BC26CF"
+          }
+        ],
+        "/SrcStack/eventAPI/Default/event/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventAPIeventGETF11FCB7E"
+          }
+        ],
+        "/SrcStack/eventAPI/Default/event/PUT/ApiPermission.SrcStackeventAPI05E6C14D.PUT..event": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventAPIeventPUTApiPermissionSrcStackeventAPI05E6C14DPUTeventB5FC5CBA"
+          }
+        ],
+        "/SrcStack/eventAPI/Default/event/PUT/ApiPermission.Test.SrcStackeventAPI05E6C14D.PUT..event": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventAPIeventPUTApiPermissionTestSrcStackeventAPI05E6C14DPUTeventBAEC29BF"
+          }
+        ],
+        "/SrcStack/eventAPI/Default/event/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "eventAPIeventPUT9947B471"
+          }
+        ],
+        "/SrcStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/SrcStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/SrcStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SrcStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SrcStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
