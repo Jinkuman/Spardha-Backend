@@ -19,13 +19,13 @@ def handler(event, context):
     httpMethod = event['httpMethod']
 
     if httpMethod == 'PUT':
-        return createChallengeHandler(event)
+        return createSpottedHandler(event)
 
     elif httpMethod == 'GET':
-        return getChallengeHandler(event)
+        return getSpottedHandler(event)
 
     elif httpMethod == 'POST':
-        return modifyChallengeHandler(event)
+        return modifySpottedHandler(event)
 
     else:
         return {
@@ -34,8 +34,8 @@ def handler(event, context):
         }
 
 
-# Create Challenge Handler, creates an event in the DynamoDB table
-def createChallengeHandler(event):
+# Create spotted Handler, creates an event in the DynamoDB table
+def createSpottedHandler(event):
     body = json.loads(event['body'])
     item = {
         'id': str(uuid.uuid4()),
@@ -43,41 +43,41 @@ def createChallengeHandler(event):
         'date': body['date'],
         'location': body.get('location')  # Using .get to handle cases where location might be absent
     }
-    print("Creating challenge with item: " + json.dumps(item))
+    print("Creating spotted with item: " + json.dumps(item))
     table.put_item(Item=item)
     return sendResponse(200, item)
 
-# Get Challenge Handler, gets an event from the DynamoDB table
-def getChallengeHandler(event):
-    challenge_id = event['queryStringParameters']['id']
-    print("Getting challenge with id: " + challenge_id)
-    response = table.get_item(Key={'id': challenge_id})
+# Get spotted Handler, gets an event from the DynamoDB table
+def getSpottedHandler(event):
+    spotted_id = event['queryStringParameters']['id']
+    print("Getting spotted with id: " + spotted_id)
+    response = table.get_item(Key={'id': spotted_id})
 
     item = response.get('Item')
     if not item:
-        return sendResponse(404, "Challenge not found")
+        return sendResponse(404, "spotted not found")
     
     return sendResponse(200, item)
 
-# Get Challenge Handler, gets an event from the DynamoDB table
-def getAllChallengesHandler(event):
-    print("Getting All Challenges:")
-    response = table.get_item(Key={'id': challenge_id})
+# Get spotted Handler, gets an event from the DynamoDB table
+def getAllSpottedsHandler(event):
+    print("Getting All spotteds:")
+    response = table.get_item(Key={'id': spotted_id})
 
     item = response.get('Item')
     if not item:
-        return sendResponse(404, "Challenge not found")
+        return sendResponse(404, "spotted not found")
     
     return sendResponse(200, item)
 
-# Modify Challenge Handler, modifies an event in the DynamoDB table
-def modifyChallengeHandler(event):
+# Modify spotted Handler, modifies an event in the DynamoDB table
+def modifySpottedHandler(event):
     try:
         body = json.loads(event['body'])
-        challengeId = body['id']
+        spottedId = body['id']
 
         item = {
-            'id': challengeId,
+            'id': spottedId,
             'start date': body['start date'],
             'end date': body['end date'],
             'initial investment': body['initial investment'],
@@ -87,5 +87,6 @@ def modifyChallengeHandler(event):
         table.put_item(Item=item)
         return sendResponse(200, item)
     except Exception as e:
-        print("Error in modifyChallengeHandler: " + str(e))
+        print("Error in modifyspottedHandler: " + str(e))
         return sendResponse(500, str(e))
+    

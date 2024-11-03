@@ -1,6 +1,6 @@
 {
  "Resources": {
-  "eventTableC7126D97": {
+  "spottedTable9128D7CE": {
    "Type": "AWS::DynamoDB::Table",
    "Properties": {
     "AttributeDefinitions": [
@@ -19,15 +19,15 @@
      "ReadCapacityUnits": 5,
      "WriteCapacityUnits": 5
     },
-    "TableName": "event-table"
+    "TableName": "spotted-table"
    },
    "UpdateReplacePolicy": "Retain",
    "DeletionPolicy": "Retain",
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventTable/Resource"
+    "aws:cdk:path": "SrcStack/spottedTable/Resource"
    }
   },
-  "eventHandlerServiceRole5EB242A1": {
+  "spottedHandlerServiceRoleD9893C34": {
    "Type": "AWS::IAM::Role",
    "Properties": {
     "AssumeRolePolicyDocument": {
@@ -58,10 +58,10 @@
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventHandler/ServiceRole/Resource"
+    "aws:cdk:path": "SrcStack/spottedHandler/ServiceRole/Resource"
    }
   },
-  "eventHandlerServiceRoleDefaultPolicy8FD5AAC5": {
+  "spottedHandlerServiceRoleDefaultPolicyAB6B7109": {
    "Type": "AWS::IAM::Policy",
    "Properties": {
     "PolicyDocument": {
@@ -85,7 +85,7 @@
        "Resource": [
         {
          "Fn::GetAtt": [
-          "eventTableC7126D97",
+          "spottedTable9128D7CE",
           "Arn"
          ]
         },
@@ -97,121 +97,121 @@
      ],
      "Version": "2012-10-17"
     },
-    "PolicyName": "eventHandlerServiceRoleDefaultPolicy8FD5AAC5",
+    "PolicyName": "spottedHandlerServiceRoleDefaultPolicyAB6B7109",
     "Roles": [
      {
-      "Ref": "eventHandlerServiceRole5EB242A1"
+      "Ref": "spottedHandlerServiceRoleD9893C34"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventHandler/ServiceRole/DefaultPolicy/Resource"
+    "aws:cdk:path": "SrcStack/spottedHandler/ServiceRole/DefaultPolicy/Resource"
    }
   },
-  "eventHandler8F7C3862": {
+  "spottedHandler8DC8F628": {
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "6117010e71f29ea111a7cf74e74171ec722d4bf7ea679092ee0564cd5159398b.zip"
+     "S3Key": "5ad76278fb82e14ff92140e3287bb83eb580d7e824e1309d6792864a176a4b26.zip"
     },
     "Environment": {
      "Variables": {
       "TABLE_NAME": {
-       "Ref": "eventTableC7126D97"
+       "Ref": "spottedTable9128D7CE"
       }
      }
     },
-    "FunctionName": "EventHandler",
-    "Handler": "eventHandler.handler",
+    "FunctionName": "spottedHandler",
+    "Handler": "spottedHandler.handler",
     "Role": {
      "Fn::GetAtt": [
-      "eventHandlerServiceRole5EB242A1",
+      "spottedHandlerServiceRoleD9893C34",
       "Arn"
      ]
     },
     "Runtime": "python3.8"
    },
    "DependsOn": [
-    "eventHandlerServiceRoleDefaultPolicy8FD5AAC5",
-    "eventHandlerServiceRole5EB242A1"
+    "spottedHandlerServiceRoleDefaultPolicyAB6B7109",
+    "spottedHandlerServiceRoleD9893C34"
    ],
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventHandler/Resource",
-    "aws:asset:path": "asset.6117010e71f29ea111a7cf74e74171ec722d4bf7ea679092ee0564cd5159398b",
+    "aws:cdk:path": "SrcStack/spottedHandler/Resource",
+    "aws:asset:path": "asset.5ad76278fb82e14ff92140e3287bb83eb580d7e824e1309d6792864a176a4b26",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
   },
-  "eventAPI9D3A89E9": {
+  "spottedAPI807A0478": {
    "Type": "AWS::ApiGateway::RestApi",
    "Properties": {
-    "Name": "Event Service"
+    "Name": "spotted Service"
    },
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventAPI/Resource"
+    "aws:cdk:path": "SrcStack/spottedAPI/Resource"
    }
   },
-  "eventAPIDeployment9A7612174236ab3aa427a227c6522f1f92b99440": {
+  "spottedAPIDeployment9D00ABBD233d1d9f4cd6e0be36be4285937ade24": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Automatically created by the RestApi construct",
     "RestApiId": {
-     "Ref": "eventAPI9D3A89E9"
+     "Ref": "spottedAPI807A0478"
     }
    },
    "DependsOn": [
-    "eventAPIeventGETF11FCB7E",
-    "eventAPIeventPOSTF1D65986",
-    "eventAPIeventPUT9947B471",
-    "eventAPIevent36D6AF21"
+    "spottedAPIspottedGET68D61404",
+    "spottedAPIspottedPOST80BCC4EF",
+    "spottedAPIspottedPUT5445E711",
+    "spottedAPIspotted55EDC5EA"
    ],
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventAPI/Deployment/Resource"
+    "aws:cdk:path": "SrcStack/spottedAPI/Deployment/Resource"
    }
   },
-  "eventAPIDeploymentStageprod6F338ACF": {
+  "spottedAPIDeploymentStageprod59BA7BCE": {
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "eventAPIDeployment9A7612174236ab3aa427a227c6522f1f92b99440"
+     "Ref": "spottedAPIDeployment9D00ABBD233d1d9f4cd6e0be36be4285937ade24"
     },
     "RestApiId": {
-     "Ref": "eventAPI9D3A89E9"
+     "Ref": "spottedAPI807A0478"
     },
     "StageName": "prod"
    },
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventAPI/DeploymentStage.prod/Resource"
+    "aws:cdk:path": "SrcStack/spottedAPI/DeploymentStage.prod/Resource"
    }
   },
-  "eventAPIevent36D6AF21": {
+  "spottedAPIspotted55EDC5EA": {
    "Type": "AWS::ApiGateway::Resource",
    "Properties": {
     "ParentId": {
      "Fn::GetAtt": [
-      "eventAPI9D3A89E9",
+      "spottedAPI807A0478",
       "RootResourceId"
      ]
     },
-    "PathPart": "event",
+    "PathPart": "spotted",
     "RestApiId": {
-     "Ref": "eventAPI9D3A89E9"
+     "Ref": "spottedAPI807A0478"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventAPI/Default/event/Resource"
+    "aws:cdk:path": "SrcStack/spottedAPI/Default/spotted/Resource"
    }
   },
-  "eventAPIeventPOSTApiPermissionSrcStackeventAPI05E6C14DPOSTevent9CA6EBAD": {
+  "spottedAPIspottedPOSTApiPermissionSrcStackspottedAPI821F99D9POSTspottedF09260E7": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "eventHandler8F7C3862",
+      "spottedHandler8DC8F628",
       "Arn"
      ]
     },
@@ -234,28 +234,28 @@
        },
        ":",
        {
-        "Ref": "eventAPI9D3A89E9"
+        "Ref": "spottedAPI807A0478"
        },
        "/",
        {
-        "Ref": "eventAPIDeploymentStageprod6F338ACF"
+        "Ref": "spottedAPIDeploymentStageprod59BA7BCE"
        },
-       "/POST/event"
+       "/POST/spotted"
       ]
      ]
     }
    },
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventAPI/Default/event/POST/ApiPermission.SrcStackeventAPI05E6C14D.POST..event"
+    "aws:cdk:path": "SrcStack/spottedAPI/Default/spotted/POST/ApiPermission.SrcStackspottedAPI821F99D9.POST..spotted"
    }
   },
-  "eventAPIeventPOSTApiPermissionTestSrcStackeventAPI05E6C14DPOSTevent03A0FCCC": {
+  "spottedAPIspottedPOSTApiPermissionTestSrcStackspottedAPI821F99D9POSTspotted1C32A69E": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "eventHandler8F7C3862",
+      "spottedHandler8DC8F628",
       "Arn"
      ]
     },
@@ -278,18 +278,18 @@
        },
        ":",
        {
-        "Ref": "eventAPI9D3A89E9"
+        "Ref": "spottedAPI807A0478"
        },
-       "/test-invoke-stage/POST/event"
+       "/test-invoke-stage/POST/spotted"
       ]
      ]
     }
    },
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventAPI/Default/event/POST/ApiPermission.Test.SrcStackeventAPI05E6C14D.POST..event"
+    "aws:cdk:path": "SrcStack/spottedAPI/Default/spotted/POST/ApiPermission.Test.SrcStackspottedAPI821F99D9.POST..spotted"
    }
   },
-  "eventAPIeventPOSTF1D65986": {
+  "spottedAPIspottedPOST80BCC4EF": {
    "Type": "AWS::ApiGateway::Method",
    "Properties": {
     "AuthorizationType": "NONE",
@@ -312,7 +312,7 @@
         ":lambda:path/2015-03-31/functions/",
         {
          "Fn::GetAtt": [
-          "eventHandler8F7C3862",
+          "spottedHandler8DC8F628",
           "Arn"
          ]
         },
@@ -322,23 +322,23 @@
      }
     },
     "ResourceId": {
-     "Ref": "eventAPIevent36D6AF21"
+     "Ref": "spottedAPIspotted55EDC5EA"
     },
     "RestApiId": {
-     "Ref": "eventAPI9D3A89E9"
+     "Ref": "spottedAPI807A0478"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventAPI/Default/event/POST/Resource"
+    "aws:cdk:path": "SrcStack/spottedAPI/Default/spotted/POST/Resource"
    }
   },
-  "eventAPIeventGETApiPermissionSrcStackeventAPI05E6C14DGETevent2E8BA342": {
+  "spottedAPIspottedGETApiPermissionSrcStackspottedAPI821F99D9GETspotted0B10AECF": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "eventHandler8F7C3862",
+      "spottedHandler8DC8F628",
       "Arn"
      ]
     },
@@ -361,28 +361,28 @@
        },
        ":",
        {
-        "Ref": "eventAPI9D3A89E9"
+        "Ref": "spottedAPI807A0478"
        },
        "/",
        {
-        "Ref": "eventAPIDeploymentStageprod6F338ACF"
+        "Ref": "spottedAPIDeploymentStageprod59BA7BCE"
        },
-       "/GET/event"
+       "/GET/spotted"
       ]
      ]
     }
    },
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventAPI/Default/event/GET/ApiPermission.SrcStackeventAPI05E6C14D.GET..event"
+    "aws:cdk:path": "SrcStack/spottedAPI/Default/spotted/GET/ApiPermission.SrcStackspottedAPI821F99D9.GET..spotted"
    }
   },
-  "eventAPIeventGETApiPermissionTestSrcStackeventAPI05E6C14DGETeventE3BC26CF": {
+  "spottedAPIspottedGETApiPermissionTestSrcStackspottedAPI821F99D9GETspotted8F7D245C": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "eventHandler8F7C3862",
+      "spottedHandler8DC8F628",
       "Arn"
      ]
     },
@@ -405,18 +405,18 @@
        },
        ":",
        {
-        "Ref": "eventAPI9D3A89E9"
+        "Ref": "spottedAPI807A0478"
        },
-       "/test-invoke-stage/GET/event"
+       "/test-invoke-stage/GET/spotted"
       ]
      ]
     }
    },
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventAPI/Default/event/GET/ApiPermission.Test.SrcStackeventAPI05E6C14D.GET..event"
+    "aws:cdk:path": "SrcStack/spottedAPI/Default/spotted/GET/ApiPermission.Test.SrcStackspottedAPI821F99D9.GET..spotted"
    }
   },
-  "eventAPIeventGETF11FCB7E": {
+  "spottedAPIspottedGET68D61404": {
    "Type": "AWS::ApiGateway::Method",
    "Properties": {
     "AuthorizationType": "NONE",
@@ -439,7 +439,7 @@
         ":lambda:path/2015-03-31/functions/",
         {
          "Fn::GetAtt": [
-          "eventHandler8F7C3862",
+          "spottedHandler8DC8F628",
           "Arn"
          ]
         },
@@ -449,23 +449,23 @@
      }
     },
     "ResourceId": {
-     "Ref": "eventAPIevent36D6AF21"
+     "Ref": "spottedAPIspotted55EDC5EA"
     },
     "RestApiId": {
-     "Ref": "eventAPI9D3A89E9"
+     "Ref": "spottedAPI807A0478"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventAPI/Default/event/GET/Resource"
+    "aws:cdk:path": "SrcStack/spottedAPI/Default/spotted/GET/Resource"
    }
   },
-  "eventAPIeventPUTApiPermissionSrcStackeventAPI05E6C14DPUTeventB5FC5CBA": {
+  "spottedAPIspottedPUTApiPermissionSrcStackspottedAPI821F99D9PUTspotted5D440D32": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "eventHandler8F7C3862",
+      "spottedHandler8DC8F628",
       "Arn"
      ]
     },
@@ -488,28 +488,28 @@
        },
        ":",
        {
-        "Ref": "eventAPI9D3A89E9"
+        "Ref": "spottedAPI807A0478"
        },
        "/",
        {
-        "Ref": "eventAPIDeploymentStageprod6F338ACF"
+        "Ref": "spottedAPIDeploymentStageprod59BA7BCE"
        },
-       "/PUT/event"
+       "/PUT/spotted"
       ]
      ]
     }
    },
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventAPI/Default/event/PUT/ApiPermission.SrcStackeventAPI05E6C14D.PUT..event"
+    "aws:cdk:path": "SrcStack/spottedAPI/Default/spotted/PUT/ApiPermission.SrcStackspottedAPI821F99D9.PUT..spotted"
    }
   },
-  "eventAPIeventPUTApiPermissionTestSrcStackeventAPI05E6C14DPUTeventBAEC29BF": {
+  "spottedAPIspottedPUTApiPermissionTestSrcStackspottedAPI821F99D9PUTspotted1834E843": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "eventHandler8F7C3862",
+      "spottedHandler8DC8F628",
       "Arn"
      ]
     },
@@ -532,18 +532,18 @@
        },
        ":",
        {
-        "Ref": "eventAPI9D3A89E9"
+        "Ref": "spottedAPI807A0478"
        },
-       "/test-invoke-stage/PUT/event"
+       "/test-invoke-stage/PUT/spotted"
       ]
      ]
     }
    },
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventAPI/Default/event/PUT/ApiPermission.Test.SrcStackeventAPI05E6C14D.PUT..event"
+    "aws:cdk:path": "SrcStack/spottedAPI/Default/spotted/PUT/ApiPermission.Test.SrcStackspottedAPI821F99D9.PUT..spotted"
    }
   },
-  "eventAPIeventPUT9947B471": {
+  "spottedAPIspottedPUT5445E711": {
    "Type": "AWS::ApiGateway::Method",
    "Properties": {
     "AuthorizationType": "NONE",
@@ -566,7 +566,7 @@
         ":lambda:path/2015-03-31/functions/",
         {
          "Fn::GetAtt": [
-          "eventHandler8F7C3862",
+          "spottedHandler8DC8F628",
           "Arn"
          ]
         },
@@ -576,14 +576,14 @@
      }
     },
     "ResourceId": {
-     "Ref": "eventAPIevent36D6AF21"
+     "Ref": "spottedAPIspotted55EDC5EA"
     },
     "RestApiId": {
-     "Ref": "eventAPI9D3A89E9"
+     "Ref": "spottedAPI807A0478"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "SrcStack/eventAPI/Default/event/PUT/Resource"
+    "aws:cdk:path": "SrcStack/spottedAPI/Default/spotted/PUT/Resource"
    }
   },
   "CDKMetadata": {
@@ -598,14 +598,14 @@
   }
  },
  "Outputs": {
-  "eventAPIEndpoint982B5D66": {
+  "spottedAPIEndpoint04D9D483": {
    "Value": {
     "Fn::Join": [
      "",
      [
       "https://",
       {
-       "Ref": "eventAPI9D3A89E9"
+       "Ref": "spottedAPI807A0478"
       },
       ".execute-api.",
       {
@@ -617,7 +617,7 @@
       },
       "/",
       {
-       "Ref": "eventAPIDeploymentStageprod6F338ACF"
+       "Ref": "spottedAPIDeploymentStageprod59BA7BCE"
       },
       "/"
      ]

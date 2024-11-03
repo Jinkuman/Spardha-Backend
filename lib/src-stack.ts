@@ -9,29 +9,29 @@ export class SrcStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    //Creating the DynamoDB table for storing 'Challenges'
-    const challengeTable = new dynamodb.Table(this, 'challengeTable', {
+    //Creating the DynamoDB table for storing 'spotteds'
+    const spottedTable = new dynamodb.Table(this, 'spottedTable', {
       partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
-      tableName: 'challenge-table'
+      tableName: 'spotted-table'
     })
 
-    //Accessing the Lambda function to create challenges
-    const challengeHandler = new lambda.Function(this, 'challengeHandler', {
+    //Accessing the Lambda function to create spotteds
+    const spottedHandler = new lambda.Function(this, 'spottedHandler', {
       runtime: lambda.Runtime.PYTHON_3_8,
-      functionName: "ChallengeHandler",
-      handler: 'challengeHandler.handler',
+      functionName: "spottedHandler",
+      handler: 'spottedHandler.handler',
       code: lambda.Code.fromAsset('lambda'),
       environment: {
-        TABLE_NAME : challengeTable.tableName,
+        TABLE_NAME : spottedTable.tableName,
       },
     });
 
       //Allow the lambda function to access the table
-      challengeTable.grantReadWriteData(challengeHandler)
+      spottedTable.grantReadWriteData(spottedHandler)
 
       //Create the API Gateway
-      const challengeAPI = new apigw.RestApi(this, 'challengeAPI', {
-        restApiName: 'Challenge Service'
+      const spottedAPI = new apigw.RestApi(this, 'spottedAPI', {
+        restApiName: 'spotted Service'
       });
 
       // //Create a Cognito User Pool 
@@ -47,12 +47,12 @@ export class SrcStack extends Stack {
       // const authorizer = new apigw.CognitoUserPoolsAuthorizer(this, 'APIAuthorizer', {cognitoUserPools: [userPool]});
 
       //Create an integration resource that will connect the lambda function to the api gateway
-      const challengeIntegration = new apigw.LambdaIntegration(challengeHandler);
-      const challengeResource = challengeAPI.root.addResource('challenge');
+      const spottedIntegration = new apigw.LambdaIntegration(spottedHandler);
+      const spottedResource = spottedAPI.root.addResource('spotted');
 
-      challengeResource.addMethod('POST', challengeIntegration);
-      challengeResource.addMethod('GET', challengeIntegration);
-      challengeResource.addMethod('PUT', challengeIntegration);
+      spottedResource.addMethod('POST', spottedIntegration);
+      spottedResource.addMethod('GET', spottedIntegration);
+      spottedResource.addMethod('PUT', spottedIntegration);
 
     }
   

@@ -8,13 +8,13 @@
         "id": "SrcStack",
         "path": "SrcStack",
         "children": {
-          "eventTable": {
-            "id": "eventTable",
-            "path": "SrcStack/eventTable",
+          "spottedTable": {
+            "id": "spottedTable",
+            "path": "SrcStack/spottedTable",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "SrcStack/eventTable/Resource",
+                "path": "SrcStack/spottedTable/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
                   "aws:cdk:cloudformation:props": {
@@ -34,7 +34,7 @@
                       "readCapacityUnits": 5,
                       "writeCapacityUnits": 5
                     },
-                    "tableName": "event-table"
+                    "tableName": "spotted-table"
                   }
                 },
                 "constructInfo": {
@@ -44,7 +44,7 @@
               },
               "ScalingRole": {
                 "id": "ScalingRole",
-                "path": "SrcStack/eventTable/ScalingRole",
+                "path": "SrcStack/spottedTable/ScalingRole",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
                   "version": "2.144.0"
@@ -56,17 +56,17 @@
               "version": "2.144.0"
             }
           },
-          "eventHandler": {
-            "id": "eventHandler",
-            "path": "SrcStack/eventHandler",
+          "spottedHandler": {
+            "id": "spottedHandler",
+            "path": "SrcStack/spottedHandler",
             "children": {
               "ServiceRole": {
                 "id": "ServiceRole",
-                "path": "SrcStack/eventHandler/ServiceRole",
+                "path": "SrcStack/spottedHandler/ServiceRole",
                 "children": {
                   "ImportServiceRole": {
                     "id": "ImportServiceRole",
-                    "path": "SrcStack/eventHandler/ServiceRole/ImportServiceRole",
+                    "path": "SrcStack/spottedHandler/ServiceRole/ImportServiceRole",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.144.0"
@@ -74,7 +74,7 @@
                   },
                   "Resource": {
                     "id": "Resource",
-                    "path": "SrcStack/eventHandler/ServiceRole/Resource",
+                    "path": "SrcStack/spottedHandler/ServiceRole/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                       "aws:cdk:cloudformation:props": {
@@ -113,11 +113,11 @@
                   },
                   "DefaultPolicy": {
                     "id": "DefaultPolicy",
-                    "path": "SrcStack/eventHandler/ServiceRole/DefaultPolicy",
+                    "path": "SrcStack/spottedHandler/ServiceRole/DefaultPolicy",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "SrcStack/eventHandler/ServiceRole/DefaultPolicy/Resource",
+                        "path": "SrcStack/spottedHandler/ServiceRole/DefaultPolicy/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                           "aws:cdk:cloudformation:props": {
@@ -142,7 +142,7 @@
                                   "Resource": [
                                     {
                                       "Fn::GetAtt": [
-                                        "eventTableC7126D97",
+                                        "spottedTable9128D7CE",
                                         "Arn"
                                       ]
                                     },
@@ -154,10 +154,10 @@
                               ],
                               "Version": "2012-10-17"
                             },
-                            "policyName": "eventHandlerServiceRoleDefaultPolicy8FD5AAC5",
+                            "policyName": "spottedHandlerServiceRoleDefaultPolicyAB6B7109",
                             "roles": [
                               {
-                                "Ref": "eventHandlerServiceRole5EB242A1"
+                                "Ref": "spottedHandlerServiceRoleD9893C34"
                               }
                             ]
                           }
@@ -181,11 +181,11 @@
               },
               "Code": {
                 "id": "Code",
-                "path": "SrcStack/eventHandler/Code",
+                "path": "SrcStack/spottedHandler/Code",
                 "children": {
                   "Stage": {
                     "id": "Stage",
-                    "path": "SrcStack/eventHandler/Code/Stage",
+                    "path": "SrcStack/spottedHandler/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
                       "version": "2.144.0"
@@ -193,7 +193,7 @@
                   },
                   "AssetBucket": {
                     "id": "AssetBucket",
-                    "path": "SrcStack/eventHandler/Code/AssetBucket",
+                    "path": "SrcStack/spottedHandler/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                       "version": "2.144.0"
@@ -207,7 +207,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "SrcStack/eventHandler/Resource",
+                "path": "SrcStack/spottedHandler/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                   "aws:cdk:cloudformation:props": {
@@ -215,20 +215,20 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "6117010e71f29ea111a7cf74e74171ec722d4bf7ea679092ee0564cd5159398b.zip"
+                      "s3Key": "5ad76278fb82e14ff92140e3287bb83eb580d7e824e1309d6792864a176a4b26.zip"
                     },
                     "environment": {
                       "variables": {
                         "TABLE_NAME": {
-                          "Ref": "eventTableC7126D97"
+                          "Ref": "spottedTable9128D7CE"
                         }
                       }
                     },
-                    "functionName": "EventHandler",
-                    "handler": "eventHandler.handler",
+                    "functionName": "spottedHandler",
+                    "handler": "spottedHandler.handler",
                     "role": {
                       "Fn::GetAtt": [
-                        "eventHandlerServiceRole5EB242A1",
+                        "spottedHandlerServiceRoleD9893C34",
                         "Arn"
                       ]
                     },
@@ -246,17 +246,17 @@
               "version": "2.144.0"
             }
           },
-          "eventAPI": {
-            "id": "eventAPI",
-            "path": "SrcStack/eventAPI",
+          "spottedAPI": {
+            "id": "spottedAPI",
+            "path": "SrcStack/spottedAPI",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "SrcStack/eventAPI/Resource",
+                "path": "SrcStack/spottedAPI/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::ApiGateway::RestApi",
                   "aws:cdk:cloudformation:props": {
-                    "name": "Event Service"
+                    "name": "spotted Service"
                   }
                 },
                 "constructInfo": {
@@ -266,17 +266,17 @@
               },
               "Deployment": {
                 "id": "Deployment",
-                "path": "SrcStack/eventAPI/Deployment",
+                "path": "SrcStack/spottedAPI/Deployment",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "SrcStack/eventAPI/Deployment/Resource",
+                    "path": "SrcStack/spottedAPI/Deployment/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::ApiGateway::Deployment",
                       "aws:cdk:cloudformation:props": {
                         "description": "Automatically created by the RestApi construct",
                         "restApiId": {
-                          "Ref": "eventAPI9D3A89E9"
+                          "Ref": "spottedAPI807A0478"
                         }
                       }
                     },
@@ -293,19 +293,19 @@
               },
               "DeploymentStage.prod": {
                 "id": "DeploymentStage.prod",
-                "path": "SrcStack/eventAPI/DeploymentStage.prod",
+                "path": "SrcStack/spottedAPI/DeploymentStage.prod",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "SrcStack/eventAPI/DeploymentStage.prod/Resource",
+                    "path": "SrcStack/spottedAPI/DeploymentStage.prod/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::ApiGateway::Stage",
                       "aws:cdk:cloudformation:props": {
                         "deploymentId": {
-                          "Ref": "eventAPIDeployment9A7612174236ab3aa427a227c6522f1f92b99440"
+                          "Ref": "spottedAPIDeployment9D00ABBD233d1d9f4cd6e0be36be4285937ade24"
                         },
                         "restApiId": {
-                          "Ref": "eventAPI9D3A89E9"
+                          "Ref": "spottedAPI807A0478"
                         },
                         "stageName": "prod"
                       }
@@ -323,7 +323,7 @@
               },
               "Endpoint": {
                 "id": "Endpoint",
-                "path": "SrcStack/eventAPI/Endpoint",
+                "path": "SrcStack/spottedAPI/Endpoint",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnOutput",
                   "version": "2.144.0"
@@ -331,27 +331,27 @@
               },
               "Default": {
                 "id": "Default",
-                "path": "SrcStack/eventAPI/Default",
+                "path": "SrcStack/spottedAPI/Default",
                 "children": {
-                  "event": {
-                    "id": "event",
-                    "path": "SrcStack/eventAPI/Default/event",
+                  "spotted": {
+                    "id": "spotted",
+                    "path": "SrcStack/spottedAPI/Default/spotted",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "SrcStack/eventAPI/Default/event/Resource",
+                        "path": "SrcStack/spottedAPI/Default/spotted/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::ApiGateway::Resource",
                           "aws:cdk:cloudformation:props": {
                             "parentId": {
                               "Fn::GetAtt": [
-                                "eventAPI9D3A89E9",
+                                "spottedAPI807A0478",
                                 "RootResourceId"
                               ]
                             },
-                            "pathPart": "event",
+                            "pathPart": "spotted",
                             "restApiId": {
-                              "Ref": "eventAPI9D3A89E9"
+                              "Ref": "spottedAPI807A0478"
                             }
                           }
                         },
@@ -362,18 +362,18 @@
                       },
                       "POST": {
                         "id": "POST",
-                        "path": "SrcStack/eventAPI/Default/event/POST",
+                        "path": "SrcStack/spottedAPI/Default/spotted/POST",
                         "children": {
-                          "ApiPermission.SrcStackeventAPI05E6C14D.POST..event": {
-                            "id": "ApiPermission.SrcStackeventAPI05E6C14D.POST..event",
-                            "path": "SrcStack/eventAPI/Default/event/POST/ApiPermission.SrcStackeventAPI05E6C14D.POST..event",
+                          "ApiPermission.SrcStackspottedAPI821F99D9.POST..spotted": {
+                            "id": "ApiPermission.SrcStackspottedAPI821F99D9.POST..spotted",
+                            "path": "SrcStack/spottedAPI/Default/spotted/POST/ApiPermission.SrcStackspottedAPI821F99D9.POST..spotted",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
                               "aws:cdk:cloudformation:props": {
                                 "action": "lambda:InvokeFunction",
                                 "functionName": {
                                   "Fn::GetAtt": [
-                                    "eventHandler8F7C3862",
+                                    "spottedHandler8DC8F628",
                                     "Arn"
                                   ]
                                 },
@@ -396,13 +396,13 @@
                                       },
                                       ":",
                                       {
-                                        "Ref": "eventAPI9D3A89E9"
+                                        "Ref": "spottedAPI807A0478"
                                       },
                                       "/",
                                       {
-                                        "Ref": "eventAPIDeploymentStageprod6F338ACF"
+                                        "Ref": "spottedAPIDeploymentStageprod59BA7BCE"
                                       },
-                                      "/POST/event"
+                                      "/POST/spotted"
                                     ]
                                   ]
                                 }
@@ -413,16 +413,16 @@
                               "version": "2.144.0"
                             }
                           },
-                          "ApiPermission.Test.SrcStackeventAPI05E6C14D.POST..event": {
-                            "id": "ApiPermission.Test.SrcStackeventAPI05E6C14D.POST..event",
-                            "path": "SrcStack/eventAPI/Default/event/POST/ApiPermission.Test.SrcStackeventAPI05E6C14D.POST..event",
+                          "ApiPermission.Test.SrcStackspottedAPI821F99D9.POST..spotted": {
+                            "id": "ApiPermission.Test.SrcStackspottedAPI821F99D9.POST..spotted",
+                            "path": "SrcStack/spottedAPI/Default/spotted/POST/ApiPermission.Test.SrcStackspottedAPI821F99D9.POST..spotted",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
                               "aws:cdk:cloudformation:props": {
                                 "action": "lambda:InvokeFunction",
                                 "functionName": {
                                   "Fn::GetAtt": [
-                                    "eventHandler8F7C3862",
+                                    "spottedHandler8DC8F628",
                                     "Arn"
                                   ]
                                 },
@@ -445,9 +445,9 @@
                                       },
                                       ":",
                                       {
-                                        "Ref": "eventAPI9D3A89E9"
+                                        "Ref": "spottedAPI807A0478"
                                       },
-                                      "/test-invoke-stage/POST/event"
+                                      "/test-invoke-stage/POST/spotted"
                                     ]
                                   ]
                                 }
@@ -460,7 +460,7 @@
                           },
                           "Resource": {
                             "id": "Resource",
-                            "path": "SrcStack/eventAPI/Default/event/POST/Resource",
+                            "path": "SrcStack/spottedAPI/Default/spotted/POST/Resource",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
                               "aws:cdk:cloudformation:props": {
@@ -483,7 +483,7 @@
                                         ":lambda:path/2015-03-31/functions/",
                                         {
                                           "Fn::GetAtt": [
-                                            "eventHandler8F7C3862",
+                                            "spottedHandler8DC8F628",
                                             "Arn"
                                           ]
                                         },
@@ -494,10 +494,10 @@
                                   "integrationHttpMethod": "POST"
                                 },
                                 "resourceId": {
-                                  "Ref": "eventAPIevent36D6AF21"
+                                  "Ref": "spottedAPIspotted55EDC5EA"
                                 },
                                 "restApiId": {
-                                  "Ref": "eventAPI9D3A89E9"
+                                  "Ref": "spottedAPI807A0478"
                                 }
                               }
                             },
@@ -514,18 +514,18 @@
                       },
                       "GET": {
                         "id": "GET",
-                        "path": "SrcStack/eventAPI/Default/event/GET",
+                        "path": "SrcStack/spottedAPI/Default/spotted/GET",
                         "children": {
-                          "ApiPermission.SrcStackeventAPI05E6C14D.GET..event": {
-                            "id": "ApiPermission.SrcStackeventAPI05E6C14D.GET..event",
-                            "path": "SrcStack/eventAPI/Default/event/GET/ApiPermission.SrcStackeventAPI05E6C14D.GET..event",
+                          "ApiPermission.SrcStackspottedAPI821F99D9.GET..spotted": {
+                            "id": "ApiPermission.SrcStackspottedAPI821F99D9.GET..spotted",
+                            "path": "SrcStack/spottedAPI/Default/spotted/GET/ApiPermission.SrcStackspottedAPI821F99D9.GET..spotted",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
                               "aws:cdk:cloudformation:props": {
                                 "action": "lambda:InvokeFunction",
                                 "functionName": {
                                   "Fn::GetAtt": [
-                                    "eventHandler8F7C3862",
+                                    "spottedHandler8DC8F628",
                                     "Arn"
                                   ]
                                 },
@@ -548,13 +548,13 @@
                                       },
                                       ":",
                                       {
-                                        "Ref": "eventAPI9D3A89E9"
+                                        "Ref": "spottedAPI807A0478"
                                       },
                                       "/",
                                       {
-                                        "Ref": "eventAPIDeploymentStageprod6F338ACF"
+                                        "Ref": "spottedAPIDeploymentStageprod59BA7BCE"
                                       },
-                                      "/GET/event"
+                                      "/GET/spotted"
                                     ]
                                   ]
                                 }
@@ -565,16 +565,16 @@
                               "version": "2.144.0"
                             }
                           },
-                          "ApiPermission.Test.SrcStackeventAPI05E6C14D.GET..event": {
-                            "id": "ApiPermission.Test.SrcStackeventAPI05E6C14D.GET..event",
-                            "path": "SrcStack/eventAPI/Default/event/GET/ApiPermission.Test.SrcStackeventAPI05E6C14D.GET..event",
+                          "ApiPermission.Test.SrcStackspottedAPI821F99D9.GET..spotted": {
+                            "id": "ApiPermission.Test.SrcStackspottedAPI821F99D9.GET..spotted",
+                            "path": "SrcStack/spottedAPI/Default/spotted/GET/ApiPermission.Test.SrcStackspottedAPI821F99D9.GET..spotted",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
                               "aws:cdk:cloudformation:props": {
                                 "action": "lambda:InvokeFunction",
                                 "functionName": {
                                   "Fn::GetAtt": [
-                                    "eventHandler8F7C3862",
+                                    "spottedHandler8DC8F628",
                                     "Arn"
                                   ]
                                 },
@@ -597,9 +597,9 @@
                                       },
                                       ":",
                                       {
-                                        "Ref": "eventAPI9D3A89E9"
+                                        "Ref": "spottedAPI807A0478"
                                       },
-                                      "/test-invoke-stage/GET/event"
+                                      "/test-invoke-stage/GET/spotted"
                                     ]
                                   ]
                                 }
@@ -612,7 +612,7 @@
                           },
                           "Resource": {
                             "id": "Resource",
-                            "path": "SrcStack/eventAPI/Default/event/GET/Resource",
+                            "path": "SrcStack/spottedAPI/Default/spotted/GET/Resource",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
                               "aws:cdk:cloudformation:props": {
@@ -635,7 +635,7 @@
                                         ":lambda:path/2015-03-31/functions/",
                                         {
                                           "Fn::GetAtt": [
-                                            "eventHandler8F7C3862",
+                                            "spottedHandler8DC8F628",
                                             "Arn"
                                           ]
                                         },
@@ -646,10 +646,10 @@
                                   "integrationHttpMethod": "POST"
                                 },
                                 "resourceId": {
-                                  "Ref": "eventAPIevent36D6AF21"
+                                  "Ref": "spottedAPIspotted55EDC5EA"
                                 },
                                 "restApiId": {
-                                  "Ref": "eventAPI9D3A89E9"
+                                  "Ref": "spottedAPI807A0478"
                                 }
                               }
                             },
@@ -666,18 +666,18 @@
                       },
                       "PUT": {
                         "id": "PUT",
-                        "path": "SrcStack/eventAPI/Default/event/PUT",
+                        "path": "SrcStack/spottedAPI/Default/spotted/PUT",
                         "children": {
-                          "ApiPermission.SrcStackeventAPI05E6C14D.PUT..event": {
-                            "id": "ApiPermission.SrcStackeventAPI05E6C14D.PUT..event",
-                            "path": "SrcStack/eventAPI/Default/event/PUT/ApiPermission.SrcStackeventAPI05E6C14D.PUT..event",
+                          "ApiPermission.SrcStackspottedAPI821F99D9.PUT..spotted": {
+                            "id": "ApiPermission.SrcStackspottedAPI821F99D9.PUT..spotted",
+                            "path": "SrcStack/spottedAPI/Default/spotted/PUT/ApiPermission.SrcStackspottedAPI821F99D9.PUT..spotted",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
                               "aws:cdk:cloudformation:props": {
                                 "action": "lambda:InvokeFunction",
                                 "functionName": {
                                   "Fn::GetAtt": [
-                                    "eventHandler8F7C3862",
+                                    "spottedHandler8DC8F628",
                                     "Arn"
                                   ]
                                 },
@@ -700,13 +700,13 @@
                                       },
                                       ":",
                                       {
-                                        "Ref": "eventAPI9D3A89E9"
+                                        "Ref": "spottedAPI807A0478"
                                       },
                                       "/",
                                       {
-                                        "Ref": "eventAPIDeploymentStageprod6F338ACF"
+                                        "Ref": "spottedAPIDeploymentStageprod59BA7BCE"
                                       },
-                                      "/PUT/event"
+                                      "/PUT/spotted"
                                     ]
                                   ]
                                 }
@@ -717,16 +717,16 @@
                               "version": "2.144.0"
                             }
                           },
-                          "ApiPermission.Test.SrcStackeventAPI05E6C14D.PUT..event": {
-                            "id": "ApiPermission.Test.SrcStackeventAPI05E6C14D.PUT..event",
-                            "path": "SrcStack/eventAPI/Default/event/PUT/ApiPermission.Test.SrcStackeventAPI05E6C14D.PUT..event",
+                          "ApiPermission.Test.SrcStackspottedAPI821F99D9.PUT..spotted": {
+                            "id": "ApiPermission.Test.SrcStackspottedAPI821F99D9.PUT..spotted",
+                            "path": "SrcStack/spottedAPI/Default/spotted/PUT/ApiPermission.Test.SrcStackspottedAPI821F99D9.PUT..spotted",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
                               "aws:cdk:cloudformation:props": {
                                 "action": "lambda:InvokeFunction",
                                 "functionName": {
                                   "Fn::GetAtt": [
-                                    "eventHandler8F7C3862",
+                                    "spottedHandler8DC8F628",
                                     "Arn"
                                   ]
                                 },
@@ -749,9 +749,9 @@
                                       },
                                       ":",
                                       {
-                                        "Ref": "eventAPI9D3A89E9"
+                                        "Ref": "spottedAPI807A0478"
                                       },
-                                      "/test-invoke-stage/PUT/event"
+                                      "/test-invoke-stage/PUT/spotted"
                                     ]
                                   ]
                                 }
@@ -764,7 +764,7 @@
                           },
                           "Resource": {
                             "id": "Resource",
-                            "path": "SrcStack/eventAPI/Default/event/PUT/Resource",
+                            "path": "SrcStack/spottedAPI/Default/spotted/PUT/Resource",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
                               "aws:cdk:cloudformation:props": {
@@ -787,7 +787,7 @@
                                         ":lambda:path/2015-03-31/functions/",
                                         {
                                           "Fn::GetAtt": [
-                                            "eventHandler8F7C3862",
+                                            "spottedHandler8DC8F628",
                                             "Arn"
                                           ]
                                         },
@@ -798,10 +798,10 @@
                                   "integrationHttpMethod": "POST"
                                 },
                                 "resourceId": {
-                                  "Ref": "eventAPIevent36D6AF21"
+                                  "Ref": "spottedAPIspotted55EDC5EA"
                                 },
                                 "restApiId": {
-                                  "Ref": "eventAPI9D3A89E9"
+                                  "Ref": "spottedAPI807A0478"
                                 }
                               }
                             },
