@@ -49,20 +49,13 @@ def handler(event, context):
 def createSpottedHandler(event):
     body = json.loads(event['body'])
     
-    location = body.get('location')
-    if location:
-        location['latitude'] = Decimal(str(location['latitude']))
-        location['longitude'] = Decimal(str(location['longitude']))
-    else:
-        return sendResponse(400, "Location is missing or invalid")
-    
     # Create a unique ID and time published
     item = {
         'id': str(uuid.uuid4()),
         'author': body['author'],
-        'timePublished': body['timePublished'],
-        'guesses': "0",
-        'averageDistanceOffBy': "N/A",
+        'timePublished': datetime.utcnow().isoformat(),
+        'guesses': 0,
+        'averageDistanceOffBy': 'N/A',
         'location': body['location'],
         'hint': body['hint']
     }

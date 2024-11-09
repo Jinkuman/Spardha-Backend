@@ -39,7 +39,7 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
-                  "version": "2.144.0"
+                  "version": "2.166.0"
                 }
               },
               "ScalingRole": {
@@ -47,13 +47,172 @@
                 "path": "SrcStack/spottedTable/ScalingRole",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
-                  "version": "2.144.0"
+                  "version": "2.166.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_dynamodb.Table",
-              "version": "2.144.0"
+              "version": "2.166.0"
+            }
+          },
+          "SpottedImagesBucket": {
+            "id": "SpottedImagesBucket",
+            "path": "SrcStack/SpottedImagesBucket",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SrcStack/SpottedImagesBucket/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "tags": [
+                      {
+                        "key": "aws-cdk:auto-delete-objects",
+                        "value": "true"
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                  "version": "2.166.0"
+                }
+              },
+              "Policy": {
+                "id": "Policy",
+                "path": "SrcStack/SpottedImagesBucket/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SrcStack/SpottedImagesBucket/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
+                      "aws:cdk:cloudformation:props": {
+                        "bucket": {
+                          "Ref": "SpottedImagesBucket48C6F90F"
+                        },
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "s3:DeleteObject*",
+                                "s3:GetBucket*",
+                                "s3:List*",
+                                "s3:PutBucketPolicy"
+                              ],
+                              "Effect": "Allow",
+                              "Principal": {
+                                "AWS": {
+                                  "Fn::GetAtt": [
+                                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                                    "Arn"
+                                  ]
+                                }
+                              },
+                              "Resource": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "SpottedImagesBucket48C6F90F",
+                                    "Arn"
+                                  ]
+                                },
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "SpottedImagesBucket48C6F90F",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/*"
+                                    ]
+                                  ]
+                                }
+                              ]
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.CfnBucketPolicy",
+                      "version": "2.166.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
+                  "version": "2.166.0"
+                }
+              },
+              "AutoDeleteObjectsCustomResource": {
+                "id": "AutoDeleteObjectsCustomResource",
+                "path": "SrcStack/SpottedImagesBucket/AutoDeleteObjectsCustomResource",
+                "children": {
+                  "Default": {
+                    "id": "Default",
+                    "path": "SrcStack/SpottedImagesBucket/AutoDeleteObjectsCustomResource/Default",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnResource",
+                      "version": "2.166.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CustomResource",
+                  "version": "2.166.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_s3.Bucket",
+              "version": "2.166.0"
+            }
+          },
+          "LatestNodeRuntimeMap": {
+            "id": "LatestNodeRuntimeMap",
+            "path": "SrcStack/LatestNodeRuntimeMap",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnMapping",
+              "version": "2.166.0"
+            }
+          },
+          "Custom::S3AutoDeleteObjectsCustomResourceProvider": {
+            "id": "Custom::S3AutoDeleteObjectsCustomResourceProvider",
+            "path": "SrcStack/Custom::S3AutoDeleteObjectsCustomResourceProvider",
+            "children": {
+              "Staging": {
+                "id": "Staging",
+                "path": "SrcStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Staging",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.AssetStaging",
+                  "version": "2.166.0"
+                }
+              },
+              "Role": {
+                "id": "Role",
+                "path": "SrcStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.166.0"
+                }
+              },
+              "Handler": {
+                "id": "Handler",
+                "path": "SrcStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.166.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CustomResourceProviderBase",
+              "version": "2.166.0"
             }
           },
           "spottedHandler": {
@@ -69,7 +228,7 @@
                     "path": "SrcStack/spottedHandler/ServiceRole/ImportServiceRole",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.144.0"
+                      "version": "2.166.0"
                     }
                   },
                   "Resource": {
@@ -108,7 +267,7 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                      "version": "2.144.0"
+                      "version": "2.166.0"
                     }
                   },
                   "DefaultPolicy": {
@@ -150,6 +309,43 @@
                                       "Ref": "AWS::NoValue"
                                     }
                                   ]
+                                },
+                                {
+                                  "Action": [
+                                    "s3:Abort*",
+                                    "s3:DeleteObject*",
+                                    "s3:GetBucket*",
+                                    "s3:GetObject*",
+                                    "s3:List*",
+                                    "s3:PutObject",
+                                    "s3:PutObjectLegalHold",
+                                    "s3:PutObjectRetention",
+                                    "s3:PutObjectTagging",
+                                    "s3:PutObjectVersionTagging"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "SpottedImagesBucket48C6F90F",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          {
+                                            "Fn::GetAtt": [
+                                              "SpottedImagesBucket48C6F90F",
+                                              "Arn"
+                                            ]
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
                                 }
                               ],
                               "Version": "2012-10-17"
@@ -164,19 +360,19 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                          "version": "2.144.0"
+                          "version": "2.166.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.Policy",
-                      "version": "2.144.0"
+                      "version": "2.166.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_iam.Role",
-                  "version": "2.144.0"
+                  "version": "2.166.0"
                 }
               },
               "Code": {
@@ -188,7 +384,7 @@
                     "path": "SrcStack/spottedHandler/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
-                      "version": "2.144.0"
+                      "version": "2.166.0"
                     }
                   },
                   "AssetBucket": {
@@ -196,13 +392,13 @@
                     "path": "SrcStack/spottedHandler/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                      "version": "2.144.0"
+                      "version": "2.166.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                  "version": "2.144.0"
+                  "version": "2.166.0"
                 }
               },
               "Resource": {
@@ -215,12 +411,15 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "5ad76278fb82e14ff92140e3287bb83eb580d7e824e1309d6792864a176a4b26.zip"
+                      "s3Key": "ddfb11fb7f021a1b04af4184c21d375f3323cd42f364af6d8b7b87c34814fe3e.zip"
                     },
                     "environment": {
                       "variables": {
                         "TABLE_NAME": {
                           "Ref": "spottedTable9128D7CE"
+                        },
+                        "BUCKET_NAME": {
+                          "Ref": "SpottedImagesBucket48C6F90F"
                         }
                       }
                     },
@@ -237,13 +436,13 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                  "version": "2.144.0"
+                  "version": "2.166.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_lambda.Function",
-              "version": "2.144.0"
+              "version": "2.166.0"
             }
           },
           "spottedAPI": {
@@ -261,7 +460,7 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_apigateway.CfnRestApi",
-                  "version": "2.144.0"
+                  "version": "2.166.0"
                 }
               },
               "Deployment": {
@@ -282,13 +481,13 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_apigateway.CfnDeployment",
-                      "version": "2.144.0"
+                      "version": "2.166.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_apigateway.Deployment",
-                  "version": "2.144.0"
+                  "version": "2.166.0"
                 }
               },
               "DeploymentStage.prod": {
@@ -312,13 +511,13 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_apigateway.CfnStage",
-                      "version": "2.144.0"
+                      "version": "2.166.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_apigateway.Stage",
-                  "version": "2.144.0"
+                  "version": "2.166.0"
                 }
               },
               "Endpoint": {
@@ -326,7 +525,7 @@
                 "path": "SrcStack/spottedAPI/Endpoint",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnOutput",
-                  "version": "2.144.0"
+                  "version": "2.166.0"
                 }
               },
               "Default": {
@@ -357,7 +556,7 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_apigateway.CfnResource",
-                          "version": "2.144.0"
+                          "version": "2.166.0"
                         }
                       },
                       "POST": {
@@ -410,7 +609,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
-                              "version": "2.144.0"
+                              "version": "2.166.0"
                             }
                           },
                           "ApiPermission.Test.SrcStackspottedAPI821F99D9.POST..spotted": {
@@ -455,7 +654,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
-                              "version": "2.144.0"
+                              "version": "2.166.0"
                             }
                           },
                           "Resource": {
@@ -503,13 +702,13 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
-                              "version": "2.144.0"
+                              "version": "2.166.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_apigateway.Method",
-                          "version": "2.144.0"
+                          "version": "2.166.0"
                         }
                       },
                       "GET": {
@@ -562,7 +761,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
-                              "version": "2.144.0"
+                              "version": "2.166.0"
                             }
                           },
                           "ApiPermission.Test.SrcStackspottedAPI821F99D9.GET..spotted": {
@@ -607,7 +806,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
-                              "version": "2.144.0"
+                              "version": "2.166.0"
                             }
                           },
                           "Resource": {
@@ -655,13 +854,13 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
-                              "version": "2.144.0"
+                              "version": "2.166.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_apigateway.Method",
-                          "version": "2.144.0"
+                          "version": "2.166.0"
                         }
                       },
                       "PUT": {
@@ -714,7 +913,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
-                              "version": "2.144.0"
+                              "version": "2.166.0"
                             }
                           },
                           "ApiPermission.Test.SrcStackspottedAPI821F99D9.PUT..spotted": {
@@ -759,7 +958,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
-                              "version": "2.144.0"
+                              "version": "2.166.0"
                             }
                           },
                           "Resource": {
@@ -807,31 +1006,31 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
-                              "version": "2.144.0"
+                              "version": "2.166.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_apigateway.Method",
-                          "version": "2.144.0"
+                          "version": "2.166.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_apigateway.Resource",
-                      "version": "2.144.0"
+                      "version": "2.166.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_apigateway.ResourceBase",
-                  "version": "2.144.0"
+                  "version": "2.166.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_apigateway.RestApi",
-              "version": "2.144.0"
+              "version": "2.166.0"
             }
           },
           "CDKMetadata": {
@@ -843,7 +1042,7 @@
                 "path": "SrcStack/CDKMetadata/Default",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnResource",
-                  "version": "2.144.0"
+                  "version": "2.166.0"
                 }
               },
               "Condition": {
@@ -851,13 +1050,13 @@
                 "path": "SrcStack/CDKMetadata/Condition",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnCondition",
-                  "version": "2.144.0"
+                  "version": "2.166.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "constructs.Construct",
-              "version": "10.3.0"
+              "version": "10.4.2"
             }
           },
           "BootstrapVersion": {
@@ -865,7 +1064,7 @@
             "path": "SrcStack/BootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnParameter",
-              "version": "2.144.0"
+              "version": "2.166.0"
             }
           },
           "CheckBootstrapVersion": {
@@ -873,13 +1072,13 @@
             "path": "SrcStack/CheckBootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnRule",
-              "version": "2.144.0"
+              "version": "2.166.0"
             }
           }
         },
         "constructInfo": {
           "fqn": "aws-cdk-lib.Stack",
-          "version": "2.144.0"
+          "version": "2.166.0"
         }
       },
       "Tree": {
@@ -887,13 +1086,13 @@
         "path": "Tree",
         "constructInfo": {
           "fqn": "constructs.Construct",
-          "version": "10.3.0"
+          "version": "10.4.2"
         }
       }
     },
     "constructInfo": {
       "fqn": "aws-cdk-lib.App",
-      "version": "2.144.0"
+      "version": "2.166.0"
     }
   }
 }

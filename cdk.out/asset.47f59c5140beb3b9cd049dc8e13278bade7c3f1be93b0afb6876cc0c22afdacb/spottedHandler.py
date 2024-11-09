@@ -7,8 +7,7 @@ from decimal import Decimal
 dynamodb = boto3.resource('dynamodb')
 table_name = os.environ['TABLE_NAME']
 table = dynamodb.Table(table_name)
-bucket_name = os.environ['BUCKET_NAME']
-s3_client = boto3.client('s3')
+
 
 
 # Custom JSON encoder for Decimal
@@ -29,13 +28,13 @@ def handler(event, context):
     print("Received event: " + json.dumps(event))
     httpMethod = event['httpMethod']
 
-    if httpMethod == 'POST':
+    if httpMethod == 'PUT':
         return createSpottedHandler(event)
 
     elif httpMethod == 'GET':
         return getSpottedHandler(event)
 
-    elif httpMethod == 'PUT':
+    elif httpMethod == 'POST':
         return modifySpottedHandler(event)
 
     else:
@@ -48,78 +47,18 @@ def handler(event, context):
 # Create spotted Handler, creates an event in the DynamoDB table
 def createSpottedHandler(event):
     body = json.loads(event['body'])
-    
-    location = body.get('location')
-    if location:
-        location['latitude'] = Decimal(str(location['latitude']))
-        location['longitude'] = Decimal(str(location['longitude']))
-    else:
-        return sendResponse(400, "Location is missing or invalid")
-    
-    # Create a unique ID and time published
     item = {
-        'id': str(uuid.uuid4()),
-        'author': body['author'],
-        'timePublished': body['timePublished'],
-        'guesses': "0",
-        'averageDistanceOffBy': "N/A",
-        'location': body['location'],
-        'hint': body['hint']
-    }
-    
-    # Generate presigned URL for image upload
-    try:
-        bucket_name = os.environ['BUCKET_NAME']
-        key = f"spotted_images/{item['id']}.jpg"  # Define the path/key for the image
-        presigned_url = s3_client.generate_presigned_url(
-            'put_object',
-            Params={'Bucket': bucket_name, 'Key': key},
-            ExpiresIn=3600  # URL expires in 1 hour
-        )
-        item['imageUrl'] = f"s3://{bucket_name}/{key}"  # Store S3 path in item
-    except Exception as e:
-        print("Error generating presigned URL:", e)
-        return sendResponse(500, "Error generating presigned URL")
-
-    # Insert item into DynamoDB
-    table_name = os.environ['TABLE_NAME']
-    dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table(table_name)
-    
-    try:
-        table.put_item(Item=item)
-    except Exception as e:
-        print("Error writing to DynamoDB:", e)
-        return sendResponse(500, "Error writing to DynamoDB")
-
-    # Send the presigned URL back in the response
-    response = {
-        'message': 'Spotted item created',
-        'spottedId': item['id'],
-        'presignedUrl': presigned_url,
-        'timePublished': item['timePublished']
-    }
-    
-    return sendResponse(200, response)
-
-    # Create the DynamoDB item
-    item = {
-        'id': spotted_id,
-        'author': body.get('author', 'Unknown'),
-        'timePublished': datetime.now().isoformat(),
-        'guesses': 0,
-        'averageDistanceOffBy': 'N/A',
-        'hint': body.get('hint', ''),
-        'location': body.get('location', {}),
-        'imageUrl': f"s3://{bucket_name}/{image_key}"
-    }
+    'id': str(uuid.uuid4()),
+    'author': body['author'],
+    'timePublished': body['timePublished'],
+    'guesses': body['guesses'],
+    'correctRatio': body['correctRatio'],
+    'averageDistanceOffBy': body['averageDistanceOffBy'],
+    # Add other fields as necessary
+}
+    print("Creating spotted with item: " + json.dumps(item))
     table.put_item(Item=item)
-
-    # Return the item and presigned URL for the frontend to use
-    return {
-        'statusCode': 200,
-        'body': json.dumps({'item': item, 'uploadUrl': presigned_url})
-    }
+    return sendResponse(200, item)
 
 # Get spotted Handler, gets an event from the DynamoDB table
 def getSpottedHandler(event):
